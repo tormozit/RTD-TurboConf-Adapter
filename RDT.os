@@ -2549,28 +2549,22 @@
 	ТурбоКонф.АктивироватьОкно(Конфигуратор.ГлавноеОкно);
 	Скрипт = 
 	"Title := ""Метод:""
+	//|DetectHiddenWindows On // Не работает
 	|hParent := WinExist(""A"")
 	|SetTitleMatchMode, 1
 	|WinGet, hChild,, %Title%
 	|;MsgBox hChild=%hChild%
-	|WinMove, %Title%,, " + XMLСтрока(ПозицияКаретки.X) + ", " + XMLСтрока(ПозицияКаретки.Y - 50) + "
-	|DllCall(""SetParent"", ""uint"", hChild, ""uint"", hParent)
-	|SetOwner(hChild, hParent)
-	|SetOwner(hwnd, newOwner) {
-	|    static GWL_HWNDPARENT := -8
-	|    if A_PtrSize = 8
-	|        DllCall(""SetWindowLongPtr"", ""ptr"", hwnd, ""int"", GWL_HWNDPARENT, ""ptr"", newOwner)
-	|    else
-	|        DllCall(""SetWindowLong"", ""int"", hwnd, ""int"", GWL_HWNDPARENT, ""int"", newOwner)
-	|}";
+	|DllCall(""SetParent"", ""Ptr"", hChild, ""Ptr"", hParent)
+	|WinMove, ahk_id %hChild%,, " + XMLСтрока(ПозицияКаретки.X) + ", " + XMLСтрока(ПозицияКаретки.Y - 50) + " 
+	|";
 	ТД = Новый ТекстовыйДокумент;
 	ТД.УстановитьТекст(Скрипт);
 	ИмяФайла = ПолучитьИмяВременногоФайла("ahk");
 	ТД.Записать(ИмяФайла, КодировкаТекста.ANSI); // Иногда возникает ошибка https://turboconf.ru/Tasks/9510
-	ЗапуститьПриложение(ИмяФайла);
+	ЗапуститьПриложение(ИмяФайла,, Истина); 
 	ТурбоКонф.АктивироватьОкно(Конфигуратор.ГлавноеОкно);
 	ПодключениеИР.Visible = Ложь;
-	//УдалитьФайлы(ИмяФайла);
+	УдалитьФайлы(ИмяФайла); // Опасно. Скрипт может молча прерываться на середине.
 КонецПроцедуры
 
 //&ЗапроситьИнформациюОДокументе
