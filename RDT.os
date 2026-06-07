@@ -1,5 +1,5 @@
 ﻿// Рекомендуется редактировать через специальный редактор https://fastcode.im/Store/8815
-//@script_version 157
+//@script_version 158
 //@script_semantic_version 2.63
 //@script_appid 8552
 //@script_name ИРАдаптер
